@@ -1,0 +1,290 @@
+% ============================================================
+% Bibliography and citations
+% ============================================================
+
+\usepackage{natbib}
+\usepackage{csquotes}
+
+
+% ============================================================
+% Mathematics
+% ============================================================
+
+\usepackage{
+    amsmath,
+    amssymb,
+    amsthm,
+    amsfonts,
+    mathrsfs,
+    dsfont,
+    bm,
+    textgreek,
+    bbm
+}
+
+
+% ============================================================
+% Fonts
+% ============================================================
+
+\usepackage{newpxtext}
+\usepackage{eulervm}
+
+
+% ============================================================
+% Page layout and document structure
+% ============================================================
+
+\usepackage[margin=1in, footskip=0.3in]{geometry}
+\usepackage{setspace}
+\usepackage[bf,small]{titlesec}
+\usepackage{etoc}
+\usepackage{chngcntr}
+\usepackage{changepage}
+\usepackage{afterpage}
+
+
+% ============================================================
+% Figures, captions, and graphics
+% ============================================================
+
+\usepackage{graphicx}
+\usepackage[bf,skip=8pt]{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\graphicspath{{Figures/}}
+
+
+% ============================================================
+% Tables
+% ============================================================
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{dcolumn}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage[para]{threeparttable}
+\usepackage{colortbl}
+\usepackage{adjustbox}
+
+
+% ============================================================
+% Landscape and rotated content
+% ============================================================
+
+\usepackage{lscape}
+\usepackage{pdflscape}
+\usepackage{rotating}
+
+
+% ============================================================
+% Lists, comments, notes, and text utilities
+% ============================================================
+
+\usepackage{enumerate}
+\usepackage{comment}
+\usepackage{verbatim}
+\usepackage{soul}
+\usepackage[multiple,stable]{footmisc}
+\usepackage[colorinlistoftodos]{todonotes}
+
+
+% ============================================================
+% Code listings
+% ============================================================
+
+\usepackage{listings}
+
+
+% ============================================================
+% Colors
+% ============================================================
+
+\usepackage{xcolor}
+
+% General-purpose colors
+\definecolor{blue}{rgb}{0,0.08,0.5}
+\definecolor{red}{rgb}{0.6,0,0}
+\definecolor{green}{rgb}{0,0.5,0.05}
+
+% Code-listing colors
+\definecolor{fgreen}{HTML}{698B27}
+\definecolor{lavender}{HTML}{E6E6FA}
+\definecolor{darkpink}{HTML}{C71585}
+\definecolor{darkyellow}{HTML}{B8860B}
+
+
+% ============================================================
+% Hyperlinks and PDF metadata
+% ============================================================
+
+\usepackage[
+    bookmarks,
+    pdftitle={},
+    pdfauthor={Banks},
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black
+]{hyperref}
+
+
+% ============================================================
+% Theorem environments
+% ============================================================
+
+\newtheorem{prediction}{Prediction}
+\newtheorem{assumption}{Assumption}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+
+% Proposition numbering resets by section
+\newtheorem{prop}{Proposition}[section]
+
+
+% ============================================================
+% Mathematical commands
+% ============================================================
+
+% Formatting
+\newcommand{\no}{\noindent}
+\newcommand{\mb}{\mathbf}
+
+% Expectation, probability, and covariance
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\pr}{\mathrm{Pr}}
+\newcommand{\cov}{\mathrm{Cov}}
+
+% Support
+\newcommand{\supp}[1]{\mathrm{Supp}\left(#1\right)}
+
+% Partial derivatives
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+
+% Indicator function
+\newcommand{\ind}[1]{\mathbbm{1}\{#1\}}
+
+% Vertical spacing helper for large fractions
+\newcommand{\vh}{
+    \vphantom{
+        \frac{
+            \frac{\pd{a}{a}}{\pd{a}{a}}
+        }{
+            \frac{\pd{a}{a}}{\pd{a}{a}}
+        }
+    }
+}
+
+
+% ============================================================
+% Custom environments
+% ============================================================
+
+% Wide equation extending 2 cm into each margin
+\newenvironment{widerequation}
+{
+    \begin{adjustwidth}{-2cm}{-2cm}
+    \begin{equation*}
+}
+{
+    \end{equation*}
+    \end{adjustwidth}
+}
+
+% Solution environment
+\newenvironment{solution}
+{
+    \par\noindent\textbf{\textit{Solution.}}
+}
+{
+    \hfill\rule{1.1ex}{1.1ex}
+}
+
+
+% ============================================================
+% Code-listing style
+% ============================================================
+
+\lstset{
+    basicstyle=\ttfamily\small\color{fgreen},
+    keywordstyle=\color{darkpink},
+    commentstyle=\color{gray},
+    stringstyle=\color{darkyellow},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{lavender}
+}
+
+
+% ============================================================
+% Spacing and section formatting
+% ============================================================
+
+% ECMA-style line spacing
+\linespread{1.5}
+
+\titlespacing*{\paragraph}
+    {0pt}
+    {.25\baselineskip}
+    {1em}
+
+\titlespacing*{\section}
+    {0pt}
+    {.6\baselineskip}
+    {.3\baselineskip}
+
+\titlespacing*{\subsection}
+    {0pt}
+    {.6\baselineskip}
+    {.3\baselineskip}
+
+\titlespacing*{\subsubsection}
+    {0pt}
+    {.6\baselineskip}
+    {.3\baselineskip}
+
+% \setlength{\parskip}{5pt}
+
+\setlength{\footnotesep}{.2in}
+
+
+% ============================================================
+% Subsubsection formatting
+% ============================================================
+
+\titleformat{\subsubsection}[runin]
+    {\normalfont\itshape\bfseries}
+    {\thesubsubsection}
+    {1em}
+    {}
+    [.]
+
+
+% ============================================================
+% Date and title-page utilities
+% ============================================================
+
+\newcommand{\monthyear}{%
+    \ifcase\month\or
+        January\or
+        February\or
+        March\or
+        April\or
+        May\or
+        June\or
+        July\or
+        August\or
+        September\or
+        October\or
+        November\or
+        December
+    \fi
+    \ \number\year
+}

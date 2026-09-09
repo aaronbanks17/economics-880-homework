@@ -9,14 +9,20 @@ Each problem set is contained in its own `homework-X` directory. Each directory 
 ```text
 economics-880-homework/
 │
-├── README.md
+├── readme.md
+│
+├── tex-items
+│   └── preamble.tex
 │
 ├── homework-1/
 │   ├── PS1CompF26.pdf
 │   ├── deterministic_functions.jl
 │   ├── deterministic_grid.jl
 │   ├── parallel_functions.jl
-│   └── parallel_script.jl
+│   ├── parallel_script.jl
+│   └── tex
+│        ├── economics-880-PS1.tex
+│        └── ...
 │
 ├── homework-2/
 │   ├── PS2CompF26.pdf

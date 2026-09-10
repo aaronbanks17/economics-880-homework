@@ -405,6 +405,16 @@ OUTPUT economics-880-ps1.out
 OUTPUT economics-880-ps1.pdf
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/newpx/zpl-Bold-tlf-t1.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/newpx/zpl-Bold-tlf-t1.tfm
+INPUT ../output/Value_Functions.png
+INPUT ../output/Value_Functions.png
+INPUT ../output/Value_Functions.png
+INPUT ../output/Value_Functions.png
+INPUT ../output/Value_Functions.png
+INPUT ../output/Policy_Functions.png
+INPUT ../output/Policy_Functions.png
+INPUT ../output/Policy_Functions.png
+INPUT ../output/Policy_Functions.png
+INPUT ../output/Policy_Functions.png
 INPUT /usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc
 INPUT economics-880-ps1.aux

@@ -1,2 +1,7 @@
-# note sure what to put here yet. 
-# probably will mostly use this for any data
+homework-1/output/*
+homework-1/tex/*.aux
+homework-1/tex/*.fdb_latexmk
+homework-1/tex/*.fls
+homework-1/tex/*.log
+homework-1/tex/*.out
+homework-1/tex/*.synctex.gz

@@ -22,11 +22,18 @@ end
 
 #function for initializing model primitives and results
 function Initialize()
-    prim = Primitives() #initialize primtiives
-    val_func = zeros(prim.nk) #initial value function guess
-    pol_func = zeros(prim.nk) #initial policy function guess
-    res = Results(val_func, pol_func) #initialize results struct
-    prim, res #return deliverables
+
+    # initialize primtiives
+    prim = Primitives() 
+
+    # initial value and policy function guess 
+    val_func = zeros(prim.nk, prim.nz)
+    pol_func = zeros(prim.nk, prim.nz)
+
+    # initialize results object
+    res = Results(val_func, pol_func)
+
+    return prim, res
 end
 
 #Bellman Operator
@@ -34,21 +41,21 @@ function Bellman(prim::Primitives,res::Results)
 
     # upack primitives and current results
     (; val_func, pol_func) = res 
-    (; β, δ, α, k_min, k_max, nk, k_grid, z_grid, Π, nz) = prim
+    (; β, δ, α, nk, k_grid, z_grid, Π) = prim
 
     # set placeholder for next value and policy function guesses 
     v_next = zero(val_func) 
     g_next = zero(pol_func)
-
-    # init choice index, used for exploiting 
-    # monotonicity of the policy function 
-    choice_lower = 1 
 
     # loop over the support of policy shocks 
     for z_ix in eachindex(z_grid)
 
         # compute expected continutation value 
         EV = val_func * Π[z_ix, :]
+
+        # init choice index, used for exploiting 
+        # monotonicity of the policy function 
+        choice_lower = 1 
 
         # conditional on a policy shock, loop over capital grid 
         for (k_ix, k) in enumerate(k_grid)
@@ -57,7 +64,7 @@ function Bellman(prim::Primitives,res::Results)
             candidate_max = -Inf 
 
             # set budget constraint with current capital
-            budget = k^α + (1 - δ) * k
+            budget = z_grid[z_ix] * k^α + (1 - δ) * k
 
             # loop over possible selection of k' 
             for kp_ix in choice_lower:nk 
@@ -68,13 +75,13 @@ function Bellman(prim::Primitives,res::Results)
                 # if feasible, check induced indirect utility
                 if c>0 
 
-                    val = log(c) + β * EV[kp_ix, z_ix]
+                    val = log(c) + β * EV[kp_ix]
 
                     # update value and policy function
                     if val > candidate_max 
                         candidate_max = val 
                         g_next[k_ix, z_ix] = k_grid[kp_ix] 
-                        choice_lower = kp_index
+                        choice_lower = kp_ix
                     end
                 end
             end
@@ -87,13 +94,21 @@ end
 
 #Value function iteration
 function V_iterate(prim::Primitives, res::Results; tol::Float64 = 1e-6, err::Float64 = 100.0)
-    n = 0 #counter
+    
+    # set counter 
+    n = 0
 
-    while err>tol #begin iteration
-        v_next = Bellman(prim, res) #spit out new vectors
-        err = maximum(abs.(v_next.-res.val_func)) #/abs(v_next[prim.nk, 1]) #reset error level
-        res.val_func = v_next #update value function
+    while err>tol
+        
+        # get guesses of value and policy function 
+        v_next, g_next = Bellman(prim, res)
+
+        # check convergence and update counter
+        err = maximum(abs.(v_next.-res.val_func))
+        res.val_func .= v_next
+        res.pol_func .= g_next
         n+=1
+
     end
     println("Value function converged in ", n, " iterations.")
 end

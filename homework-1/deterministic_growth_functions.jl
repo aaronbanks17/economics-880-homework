@@ -7,19 +7,21 @@
     k_max::Float64 = 90.0 #capital upper bound
     nk::Int64 = 1000 #number of capital grid points
     k_grid::Array{Float64,1} = collect(range(start=k_min, stop=k_max, length=nk)) #capital grid
+    z_grid = [1.25, 0.2], #technology grid
+    Π = [0.977 0.023; 0.074 0.926] #transition matrix
 end
 
 #structure that holds model results
 mutable struct Results
-    val_func::Array{Float64, 1} #value function
-    pol_func::Array{Float64, 1} #policy function
+    val_func::Array{Float64, 2} #value function (now with 2 state variables)
+    pol_func::Array{Float64, 2} #policy function (now with 2 state variables)
 end
 
 #function for initializing model primitives and results
 function Initialize()
     prim = Primitives() #initialize primtiives
-    val_func = zeros(prim.nk) #initial value function guess
-    pol_func = zeros(prim.nk) #initial policy function guess
+    val_func = zeros(prim.nk, prim.nz) #initial value function guess
+    pol_func = zeros(prim.nk, prim.nz) #initial policy function guess
     res = Results(val_func, pol_func) #initialize results struct
     prim, res #return deliverables
 end

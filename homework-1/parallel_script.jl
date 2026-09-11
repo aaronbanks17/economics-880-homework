@@ -1,7 +1,7 @@
 using Distributed
 addprocs(2)
 @everywhere using Parameters, Plots, SharedArrays #import the libraries we want
-include("parallel_functions.jl") #import the functions that solve our growth model
+include(joinpath(@__DIR__, "parallel_functions.jl")) #import the functions that solve our growth model
 @everywhere prim, res = Initialize() #initialize primitive and results structs
 @time Solve_model(prim, res) #solve the model!
 

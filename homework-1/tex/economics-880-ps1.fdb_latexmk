@@ -1,10 +1,10 @@
 # Fdb version 4
-["pdflatex"] 1789086738.18958 "/Users/aaronbanks/Dropbox (Personal)/uw-madison/classes/economics-880/homework/homework-1/tex/economics-880-ps1.tex" "economics-880-ps1.pdf" "economics-880-ps1" 1789086739.59314 0
-  "../../tex-items/preamble.tex" 1789059505.76721 6610 025428eac4e03629afe274705463a3ab ""
-  "../output/Policy_Functions.png" 1789085329.2949 29751 cf5341a455de8aeb6d76a4a025f33a20 ""
-  "../output/Policy_Functions_Changes.png" 1789085329.67091 23808 f88b0143ef1d79e4319ac806c9e20a52 ""
-  "../output/Value_Functions.png" 1789085329.1063 22831 14502ee44d7cb93cbb226b5d7d30009c ""
-  "/Users/aaronbanks/Dropbox (Personal)/uw-madison/classes/economics-880/homework/homework-1/tex/economics-880-ps1.tex" 1789086737.97915 2041 6ce6bbcfa2c713533c6c092b266b3ab1 ""
+["pdflatex"] 1789087762.66388 "/Users/aaronbanks/Dropbox (Personal)/uw-madison/classes/economics-880/homework/homework-1/tex/economics-880-ps1.tex" "economics-880-ps1.pdf" "economics-880-ps1" 1789087764.18775 0
+  "../../tex-items/preamble.tex" 1789086949.52713 6610 025428eac4e03629afe274705463a3ab ""
+  "../output/Policy_Functions.png" 1789087356.66315 30408 2e4b8742849dae43af7207993c729027 ""
+  "../output/Policy_Functions_Changes.png" 1789087357.04455 26105 0ad72a01a0d423890310b6fd3c9d9554 ""
+  "../output/Value_Functions.png" 1789087356.49138 25119 7c66d67077e8f4367290cadb48ed3ff5 ""
+  "/Users/aaronbanks/Dropbox (Personal)/uw-madison/classes/economics-880/homework/homework-1/tex/economics-880-ps1.tex" 1789087762.44261 2899 9e4035f78398036f31e16b85328d1bf4 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc" 1698694482 2914 fdbc4a54b9bc76f4551b5303f2737d33 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/ecrm1000.tfm" 1136768653 3584 adb004a0c8e7c46ee66cad73671f37b4 ""
@@ -256,9 +256,9 @@
   "/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1782072813 5573038 b99aad5e4898a9034e953632f940512b ""
   "/usr/local/texlive/2026/texmf-var/web2c/pdftex/pdflatex.fmt" 1774209607 3636776 dc5fa9b6b1453b9d196cd42edf876004 ""
   "/usr/local/texlive/2026/texmf.cnf" 1774209515 577 648cd9f92f9c0eac486f4c71c85cfbbe ""
-  "economics-880-ps1.aux" 1789086739.43651 377 d341b346ffbe524dd5d1fe06d1ad08b8 "pdflatex"
-  "economics-880-ps1.out" 1789086739.10869 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "economics-880-ps1.tex" 1789086737.97915 2041 6ce6bbcfa2c713533c6c092b266b3ab1 ""
+  "economics-880-ps1.aux" 1789087763.99862 377 c36e31cd0cc80d1e1010c91e3c563baf "pdflatex"
+  "economics-880-ps1.out" 1789087763.65822 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "economics-880-ps1.tex" 1789087762.44261 2899 9e4035f78398036f31e16b85328d1bf4 ""
   "economics-880-ps1.toc" 0 -1 0 ""
   (generated)
   "economics-880-ps1.aux"

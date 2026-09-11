@@ -1,5 +1,5 @@
 using Distributed
-addprocs(5)
+addprocs(2)
 @everywhere using Parameters, Plots, SharedArrays #import the libraries we want
 include("parallel_functions.jl") #import the functions that solve our growth model
 @everywhere prim, res = Initialize() #initialize primitive and results structs

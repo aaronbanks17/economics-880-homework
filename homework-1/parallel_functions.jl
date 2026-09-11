@@ -43,57 +43,111 @@ end
 end
 
 
+# function Bellman(prim::Primitives, res::Results)
+
+#     # upack primitives and current results
+#     (; val_func, pol_func) = res 
+#     (; β, δ, α, nk, k_grid, z_grid, Π, nz) = prim
+    
+#     v_next = SharedArray{Float64}((nk, nz))
+#     g_next = SharedArray{Float64}((nk, nz))
+
+#     fill!(v_next, 0.0)
+#     fill!(g_next, 0.0)
+
+#     # NOTE: I am choosing to parallelize over the 
+#     # capital grid, since it is large while the 
+#     # support of the shocks has only two values 
+#     #                               - Aaron 
+
+#     for z_ix in eachindex(z_grid)
+
+#         EV = val_func * Π[z_ix, :]
+#         z = z_grid[z_ix]
+        
+#         @sync @distributed for k_ix in 1:nk
+
+#             k = k_grid[k_ix]
+
+#             candidate_max = -Inf
+#             budget = z * k^α + (1 - δ) * k
+            
+#             for kp_ix in 1:nk
+
+#                 c = budget - k_grid[kp_ix]
+
+#                 # use Dean's trick: one consumption
+#                 # becomes non-positive, all subsequent 
+#                 # k' (which are increasing) will give 
+#                 # infeasible consumption 
+#                 if c <= 0
+#                     break
+#                 end
+
+#                 val = log(c) + β * EV[kp_ix]
+                
+#                 if val > candidate_max
+#                     candidate_max = val
+#                     g_next[k_ix, z_ix] = k_grid[kp_ix] 
+#                 end
+#             end
+#             v_next[k_ix, z_ix] = candidate_max
+#         end
+#     end 
+
+#     return v_next, g_next
+# end
+
 function Bellman(prim::Primitives, res::Results)
 
-    # upack primitives and current results
-    (; val_func, pol_func) = res 
+    # unpack primitives and current results
+    (; val_func, pol_func) = res
     (; β, δ, α, nk, k_grid, z_grid, Π, nz) = prim
-    
+
     v_next = SharedArray{Float64}((nk, nz))
     g_next = SharedArray{Float64}((nk, nz))
 
     fill!(v_next, 0.0)
     fill!(g_next, 0.0)
 
-    # NOTE: I am choosing to parallelize over the 
-    # capital grid, since it is large while the 
-    # support of the shocks has only two values 
-    #                               - Aaron 
+    # parallelize over technology shocks
+    @sync @distributed for z_ix in eachindex(z_grid)
 
-    for z_ix in eachindex(z_grid)
-
+        # compute expected continuation value
         EV = val_func * Π[z_ix, :]
-        z = z_grid[z_ix]
-        
-        @sync @distributed for k_ix in 1:nk
 
-            k = k_grid[k_ix]
+        # initialize lower bound for choice of k'
+        choice_lower = 1
+
+        # conditional on technology shock, loop sequentially
+        # over capital grid
+        for (k_ix, k) in enumerate(k_grid)
 
             candidate_max = -Inf
-            budget = z * k^α + (1 - δ) * k
-            
-            for kp_ix in 1:nk
+            budget = z_grid[z_ix] * k^α + (1 - δ) * k
+
+            # exploit monotonicity of policy function
+            for kp_ix in choice_lower:nk
 
                 c = budget - k_grid[kp_ix]
 
-                # use Dean's trick: one consumption
-                # becomes non-positive, all subsequent 
-                # k' (which are increasing) will give 
-                # infeasible consumption 
+                # all subsequent choices are infeasible
                 if c <= 0
                     break
                 end
 
                 val = log(c) + β * EV[kp_ix]
-                
+
                 if val > candidate_max
                     candidate_max = val
-                    g_next[k_ix, z_ix] = k_grid[kp_ix] 
+                    g_next[k_ix, z_ix] = k_grid[kp_ix]
+                    choice_lower = kp_ix
                 end
             end
+
             v_next[k_ix, z_ix] = candidate_max
         end
-    end 
+    end
 
     return v_next, g_next
 end

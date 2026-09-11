@@ -10,22 +10,38 @@
 
     \section*{Question 1}
         The un-parallelized version converged in 1,359 iterations in 1.76 seconds, whereas the parallelized
-        version completed in the same number of iterations but in 13.67 seconds. 
-    \section*{Question 2}
+        version completed in the same number of iterations but in 13.67 seconds. This result is counter-intuitive,
+        as we would expect that the parallelization would decrease the runtime. However, in this parallelized 
+        version, we decided to parallelize over the inner loop that searches over the grid for choice of $k'$ 
+        conditonal on $(k, z_i)$. In this way, we lose the ability to use the \texttt{choice\_lower} variable that 
+        exploits the monotonicity of the policy function.
 
-    \begin{figure}[htbp]
-        \caption{}
-        \centering
-        \includegraphics[width=0.8\textwidth]{../output/Value_Functions.png}
-        % \label{fig:figure_name}
-    \end{figure}
+        We rewrote the Bellman to instead parallelize over the two technology shock states, while maintaining the use 
+        of the \texttt{choice\_lower} trick, since there will be no race condition parallelizing at the leve of $Z$. In 
+        this version, we have a total runtime of 4.76 which likely reflects the ramp up time of parallelization. 
+    \section*{Question 2}
+        In the figure below, the value function is plotted for conditional on both values of $Z$. In both cases, the value
+        function is increasing and concave. 
+
+        \begin{figure}[htbp]
+            % \caption{}
+            \centering
+            \includegraphics[width=0.8\textwidth]{../output/Value_Functions.png}
+            % \label{fig:figure_name}
+        \end{figure}
 
     \section*{Question 3}
 
-    \begin{figure}[htbp]
-        \caption{}
-        \centering
-        \includegraphics[width=0.8\textwidth]{../output/Policy_Functions.png}
-    \end{figure}
+        \begin{figure}[htbp]
+            % \caption{}
+            \centering
+            \includegraphics[width=0.8\textwidth]{../output/Policy_Functions.png}
+        \end{figure}
+
+        \begin{figure}[htbp]
+            % \caption{}
+            \centering
+            \includegraphics[width=0.8\textwidth]{../output/Policy_Functions_Changes.png}
+        \end{figure}
 
 \end{document}

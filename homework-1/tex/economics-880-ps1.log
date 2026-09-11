@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.22)  9 SEP 2026 20:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.22)  10 SEP 2026 19:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1401,19 +1401,56 @@ LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
 (Font)              scaled to size 10.0pt on input line 7.
 LaTeX Font Info:    Font shape `T1/zpltlf/b/n' will be
 (Font)              scaled to size 12.0pt on input line 11.
+LaTeX Font Info:    Trying to load font information for T1+minzpl on input line 15.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/newpx/t1minzpl.fd
+File: t1minzpl.fd 2021/05/25 v1.0 font definition file for T1/minzpl/TLF
+)
+LaTeX Font Info:    Font shape `T1/minzpl/m/n' will be
+(Font)              scaled to size 10.0pt on input line 15.
+LaTeX Font Info:    Font shape `T1/minzpl/m/n' will be
+(Font)              scaled to size 7.0pt on input line 15.
+LaTeX Font Info:    Font shape `T1/minzpl/m/n' will be
+(Font)              scaled to size 5.0pt on input line 15.
+LaTeX Font Info:    Trying to load font information for U+zeur on input line 15.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/eulervm/uzeur.fd
+File: uzeur.fd 2005/01/11 v4.0 (WaS)
+)
+LaTeX Font Info:    Trying to load font information for U+zeus on input line 15.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/eulervm/uzeus.fd
+File: uzeus.fd 2005/01/11 v4.0 (WaS)
+)
+LaTeX Font Info:    Trying to load font information for U+zeuex on input line 15.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/eulervm/uzeuex.fd
+File: uzeuex.fd 2005/01/11 v4.0 (WaS)
+)
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 15.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/jknapltx/ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+)
+LaTeX Font Info:    Trying to load font information for T1+npxtt on input line 16.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/newpx/t1npxtt.fd
+File: t1npxtt.fd 2000/12/14 v1.0
+)
+LaTeX Font Info:    Font shape `T1/npxtt/m/n' will be
+(Font)              scaled to size 10.0pt on input line 16.
 <../output/Value_Functions.png, id=7, 602.25pt x 401.5pt>
 File: ../output/Value_Functions.png Graphic file (type png)
 <use ../output/Value_Functions.png>
-Package pdftex.def Info: ../output/Value_Functions.png  used on input line 19.
+Package pdftex.def Info: ../output/Value_Functions.png  used on input line 29.
 (pdftex.def)             Requested size: 375.80544pt x 250.54478pt.
 <../output/Policy_Functions.png, id=8, 602.25pt x 401.5pt>
 File: ../output/Policy_Functions.png Graphic file (type png)
 <use ../output/Policy_Functions.png>
-Package pdftex.def Info: ../output/Policy_Functions.png  used on input line 28.
+Package pdftex.def Info: ../output/Policy_Functions.png  used on input line 38.
+(pdftex.def)             Requested size: 375.80544pt x 250.54478pt.
+<../output/Policy_Functions_Changes.png, id=9, 602.25pt x 401.5pt>
+File: ../output/Policy_Functions_Changes.png Graphic file (type png)
+<use ../output/Policy_Functions_Changes.png>
+Package pdftex.def Info: ../output/Policy_Functions_Changes.png  used on input line 44.
 (pdftex.def)             Requested size: 375.80544pt x 250.54478pt.
  [1
 
-{/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc} <../output/Value_Functions.png>] [2 <../output/Policy_Functions.png>] (./economics-880-ps1.aux)
+{/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/newtx/ntx-ec-tlf.enc} <../output/Value_Functions.png>] [2 <../output/Policy_Functions.png> <../output/Policy_Functions_Changes.png>] (./economics-880-ps1.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
@@ -1422,18 +1459,18 @@ Package rerunfilecheck Info: File `economics-880-ps1.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 31955 strings out of 467525
- 578754 string characters out of 5418982
- 959973 words of memory out of 5000000
- 60290 multiletter control sequences out of 15000+600000
- 637472 words of font info for 45 fonts, out of 8000000 for 9000
+ 32127 strings out of 467525
+ 581806 string characters out of 5418982
+ 962973 words of memory out of 5000000
+ 60411 multiletter control sequences out of 15000+600000
+ 652561 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 89i,6n,120p,650b,537s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2026/texmf-dist/fonts/type1/public/newpx/zplb.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/newpx/zplr.pfb>
-Output written on economics-880-ps1.pdf (2 pages, 108867 bytes).
+ 89i,6n,120p,650b,541s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/euler/eurm10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/euler/eurm7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/txfonts/t1xtt.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/newpx/zplb.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/newpx/zplr.pfb>
+Output written on economics-880-ps1.pdf (2 pages, 153319 bytes).
 PDF statistics:
- 35 PDF objects out of 1000 (max. 8388607)
- 24 compressed objects within 1 object stream
- 5 named destinations out of 1000 (max. 500000)
- 23 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 62 PDF objects out of 1000 (max. 8388607)
+ 40 compressed objects within 1 object stream
+ 6 named destinations out of 1000 (max. 500000)
+ 28 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,7 +1,10 @@
-homework-1/output/*
-homework-1/tex/*.aux
-homework-1/tex/*.fdb_latexmk
-homework-1/tex/*.fls
-homework-1/tex/*.log
-homework-1/tex/*.out
-homework-1/tex/*.synctex.gz
+homework-*/output/*
+homework-*/data/*
+homework-*/tex/*.aux
+homework-*/tex/*.fdb_latexmk
+homework-*/tex/*.fls
+homework-*/tex/*.log
+homework-*/tex/*.out
+homework-*/tex/*.synctex.gz
+
+.DS_Store

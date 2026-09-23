@@ -176,33 +176,124 @@ function kolmogorov(res::Results, prim::Primitives)
     return dist_next
 end
 
-function inner_loop_1(
-    res::Results, 
+function inner_loop_1!(
+    res::Results,
     prim::Primitives;
     tol::Float64 = 1e-6,
     err::Float64 = Inf
 )
     """Solve inner loop #1 for (val_func, pol_func)"""
 
+    while err > tol
+
+        # apply Bellman operator
+        v_next, pol_func = bellman(res, prim)
+
+        # compute convergence error
+        err = maximum(abs.(v_next .- res.val_func))
+
+        # update value and policy functions
+        res.val_func .= v_next
+        res.pol_func .= pol_func
+    end
+
+    return nothing
 end
 
-function inner_loop_2(
+
+function inner_loop_2!(
     res::Results,
     prim::Primitives;
     tol::Float64 = 1e-6,
     err::Float64 = Inf
 )
     """Solve inner loop #2 for sta_dist"""
-    
+
+    # initialize distribution if necessary
+    if sum(res.sta_dist) == 0.0
+        # initial guess with uniform weights
+        res.sta_dist .= 1.0 / (prim.n_a * prim.n_s)
+    end
+
+    while err > tol
+
+        # apply Kolmogorov-forward operator
+        dist_next = kolmogorov(res, prim)
+
+        # compute convergence error
+        err = maximum(abs.(dist_next .- res.sta_dist))
+
+        # update stationary distribution
+        res.sta_dist .= dist_next
+    end
+
+    return nothing
 end
 
 function solve_GE(
     prim::Primitives,
     res::Results;
-    tol::Float64 = 1e-6,
-    err::Float64 = Inf 
+    q_lower::Float64 = 0.0,
+    q_upper::Float64 = 1.0,
+    tol::Float64 = 1e-8
 )
-    """Solve for bond market clearing using bisection"""
-    
+    """Solve for equilibrium using bisection"""
+
+    while q_upper - q_lower > tol
+
+        # update guess of bond price
+        res.q = (q_lower + q_upper) / 2
+
+        # check if HH problem is feasible over entire state space
+        c_max_min = minimum(prim.s_grid) +
+                    prim.a_min -
+                    res.q * prim.a_min
+
+        if c_max_min <= 0
+
+            # candidate q does not yield a feasible choice
+            # for every (a, s) in A × S
+            q_lower = res.q
+            continue
+        end
+
+        # solve HH problem
+        inner_loop_1!(res, prim)
+
+        # solve for stationary distribution
+        inner_loop_2!(res, prim)
+
+        # calculate aggregate asset demand
+        asset_demand = 0.0
+
+        for s_ix in 1:prim.n_s
+            for a_ix in 1:prim.n_a
+
+                # recover optimal asset choice
+                ap_ix = res.pol_func[a_ix, s_ix]
+                ap = prim.a_grid[ap_ix]
+
+                # weight asset choice by stationary probability
+                asset_demand +=
+                    ap * res.sta_dist[a_ix, s_ix]
+            end
+        end
+
+        # update bond-price bounds
+        if asset_demand > 0
+            q_lower = res.q
+        else
+            q_upper = res.q
+        end
+    end
+
+    # set equilibrium price to midpoint of final bracket
+    res.q = (q_lower + q_upper) / 2
+
+    # solve model at reported equilibrium price
+    inner_loop_1!(res, prim)
+    inner_loop_2!(res, prim)
+
+    return nothing
 end
 

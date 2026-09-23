@@ -1,0 +1,66 @@
+\documentclass{article}
+\input{../../tex-items/preamble.tex}
+
+\begin{document}
+
+    \begin{center}
+        \scalebox{1.3}{\textbf{Economics 880 -- PSet 2}}\\
+        Aaron Banks \& Arthur Rodrigues  
+    \end{center}
+
+    \section{Part 1}
+
+        We solve for the competitive equilibrium in the setting of Hugget (1993) with enforceable insurance markets and 
+        and no initial asset holdings. There are a unit measure of identical agents
+        with preferences $\E_0[\sum_t\beta^tU(c_t)]$ where $U:\R_+ \to \R$ is strictly increasing, strictly concave, differentiable
+        and bounded on its domain. As usualy, $\beta\in (0,1)$. The support of income shocks is $S =\{u, e\}$ where income is 
+        $y:S\to\mathbb{R}$ with $y(e) = 1$ and $y(u) =b < 1$. Shocks are iid across agents and follow a Markov process: 
+        \[
+            \pi(s' \mid s) = \pr(s_{t+1} = s' \mid s_t = s).
+        \]
+        Each period, agents' income is realized, and they choose aseet holdings $a_{t+1} \geq \underline{a}$ 
+        given a price $q_t \in [0,1]$ with consumption $c_t$ determine by the resiudal income from asset holding
+        decisions and where $\underline{a} \leq 0$.
+
+        We solve for the competitive equilibrium by first solving a planner's problem that weights each agent equally, and then
+        decentralizing the planner's allocation via a bond price. While agent's are subject to income risk, in aggregate the Law 
+        of Large Numbers implies now aggregate uncertainty. Thus, the planner's problem is given by 
+        \begin{align*}
+            \max_{\{(c_t^e, c_t^u)\}} \sum_{t=0}^\infty \beta^t \Big[\pi^e U(c_t^e) +  \pi^u U(c_t^u) \Big]  
+            \qquad s.t. \qquad \pi^e y(e) + \pi^u y(u) \leq \pi^e c_t^e + \pi^u c_t^u
+        \end{align*}
+        where $\pi^s$ is the fraction of the population that receives income shock $s$ each period. With multiplier $\lambda_t$ 
+        on the period $t$ resource feasibility constraint, the first order optimality conditons of the associated Lagrangian are 
+        \begin{align*}
+            \beta^t U'(c_t^s) - \lambda_t &= 0 \qquad s = e, u\\
+            \lambda_t [\pi^e (c_t^e - y(e)) + \pi^u (c_t^u - y(u))] &= 0
+        \end{align*}
+        Strict concavity of the utility function implies that $c_t^e = c_t^u = \pi^e y(e) + \pi^u y(u)$ for all $t$. In other words, there is perfect
+        consumption smoothing between those agents suffering different income shocks. 
+
+        The household problem is 
+        \begin{align*}
+            \max_{\{(c_t, a_t)\}} \E_0 \sum_{t=0}^\infty \beta^t U(c_t(s_t)) 
+            \qquad s.t. \qquad 
+            c_t + \sum_{s \in S} Q(s \mid s_t) a_{t+1}(s, s_t) &\leq y(s_t) + a_t (s_t, s_{t-1})\\
+            a_0 &= 0
+        \end{align*}
+        The consumption Euler equation for this problem is
+        \[
+            Q(s' \mid s) U'(c_t(s)) = \beta \pi(s' \mid s) U'(c_{t+1}(s')).
+        \]
+        To match the planner's allocation, the marginal utilities of consumption in adjacent periods must be equal as consumption is 
+        smoothed across time and states. Hence, 
+        \[
+            Q(s' \mid s) = \beta \pi(s' \mid s),
+        \]
+        implying that the risk free rate is 
+        \[
+            q \equiv \sum_{s' \in S}Q(s' \mid s) = \beta.
+        \]
+
+    \section{Part 2}
+
+    \section{Part 3}
+
+\end{document}

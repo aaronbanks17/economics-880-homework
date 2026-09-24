@@ -51,7 +51,6 @@ end
 p_policy = plot(
     xlabel="Current assets, a",
     ylabel="Next-period assets, a'",
-    title="Policy Functions",
     legend=:topleft
 )
 
@@ -80,7 +79,7 @@ display(p_policy)
 
 savefig(
     p_policy,
-    joinpath(out_dir, "policy_functions.png")
+    joinpath(out_dir, "policy_functions.pdf")
 )
 
 # check for asset levels where g(a, s) < a
@@ -113,7 +112,6 @@ end
 p_wealth = plot(
     xlabel="Wealth, w = s + a",
     ylabel="Conditional probability mass",
-    title="Cross-Sectional Wealth Distributions",
     legend=:topright
 )
 
@@ -142,7 +140,7 @@ display(p_wealth)
 
 savefig(
     p_wealth,
-    joinpath(out_dir, "wealth_distributions.png")
+    joinpath(out_dir, "wealth_distributions.pdf")
 )
 
 
@@ -223,7 +221,6 @@ p_lorenz = plot(
     label="Model",
     xlabel="Cumulative population share",
     ylabel="Cumulative wealth share",
-    title="Lorenz Curve",
     linewidth=2,
     legend=:topleft
 )
@@ -242,5 +239,123 @@ display(p_lorenz)
 
 savefig(
     p_lorenz,
-    joinpath(out_dir, "lorenz_curve.png")
+    joinpath(out_dir, "lorenz_curve.pdf")
+)
+
+# -- part III: welfare analysis -- #
+
+# calculate stationary probabilities of employment states
+π_e = sum(res.sta_dist[:, 1])
+π_u = sum(res.sta_dist[:, 2])
+
+# calculate consumption under complete markets
+c_FB =
+    π_e * prim.s_grid[1] +
+    π_u * prim.s_grid[2]
+
+# calculate lifetime utility under complete markets
+W_FB = u(c_FB, prim.α) / (1 - prim.β)
+
+# calculate lifetime utility under incomplete markets
+W_INC = sum(
+    res.val_func .* res.sta_dist
+)
+
+# calculate constant implied by utility normalization
+constant =
+    1 / ((1 - prim.α) * (1 - prim.β))
+
+# calculate consumption-equivalent welfare gain
+λ = (
+    (W_FB + constant) ./
+    (res.val_func .+ constant)
+) .^ (1 / (1 - prim.α)) .- 1
+
+# calculate average welfare gain
+WG = sum(
+    λ .* res.sta_dist
+)
+
+# calculate fraction who favor complete markets
+favor_complete = sum(
+    res.sta_dist[λ .>= 0]
+)
+
+
+# -- part III(a): plot welfare gains -- #
+
+p_welfare = plot(
+    xlabel="Current assets, a",
+    ylabel="Consumption-equivalent welfare gain, λ(a,s)",
+    legend=:topright
+)
+
+# plot welfare gain for each income state
+for s_ix in 1:prim.n_s
+    plot!(
+        p_welfare,
+        prim.a_grid,
+        λ[:, s_ix],
+        label="s = $(prim.s_grid[s_ix])",
+        linewidth=2
+    )
+end
+
+# add zero-welfare-gain line
+hline!(
+    p_welfare,
+    [0.0],
+    label="λ = 0",
+    linestyle=:dash,
+    linewidth=2
+)
+
+display(p_welfare)
+
+savefig(
+    p_welfare,
+    joinpath(out_dir, "welfare_gains.pdf")
+)
+
+
+# -- part III(b): report welfare measures -- #
+
+@printf("\nWelfare Analysis\n")
+
+@printf(
+    "Complete-markets consumption: %.6f\n",
+    c_FB
+)
+
+@printf(
+    "W_FB: %.6f\n",
+    W_FB
+)
+
+@printf(
+    "W_INC: %.6f\n",
+    W_INC
+)
+
+@printf(
+    "Average welfare gain: %.6f\n",
+    WG
+)
+
+@printf(
+    "Average welfare gain (percent): %.4f%%\n",
+    100 * WG
+)
+
+
+# -- part III(c): support for complete markets -- #
+
+@printf(
+    "Fraction favoring complete markets: %.6f\n",
+    favor_complete
+)
+
+@printf(
+    "Fraction favoring complete markets (percent): %.4f%%\n",
+    100 * favor_complete
 )

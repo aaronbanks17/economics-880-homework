@@ -8,7 +8,7 @@
         Aaron Banks \& Arthur Rodrigues  
     \end{center}
 
-    \section{Part 1}
+    \section*{Part I}
 
         We solve for the competitive equilibrium in the setting of Hugget (1993) with enforceable insurance markets and 
         and no initial asset holdings. There are a unit measure of identical agents
@@ -59,8 +59,178 @@
             q \equiv \sum_{s' \in S}Q(s' \mid s) = \beta.
         \]
 
-    \section{Part 2}
 
-    \section{Part 3}
+    \section*{Part II}
+
+        Figure \ref{fig:policy_functions} plots the equilibrium policy functions
+        for employed and unemployed households. For employed households, the
+        policy function first satisfies $g(a,e)<a$ at approximately $a=1.4404$.
+        For unemployed households, the policy function first satisfies
+        $g(a,u)<a$ at approximately $a=-1.9930$. Thus, for both earnings states,
+        there exist asset levels $\bar{a}$ such that
+        \[
+            g(\bar{a},s)<\bar{a},
+        \]
+        verifying that households do not continue to accumulate assets at the
+        upper end of the asset grid.
+
+        The equilibrium bond price is $q^* = 0.9943.$
+        At the reported equilibrium price, aggregate excess asset demand is
+        approximately $0.00118$, which is close to the zero-net-supply
+        market-clearing condition. Because asset choices are restricted to a
+        grid of 1,000 points, the numerical excess-demand function might only be roughly
+        equal zero. We therefore terminate the bisection algorithm when
+        the price bracket becomes sufficiently small rather than requiring
+        excess asset demand itself to equal zero.
+
+        Figure \ref{fig:wealth_distributions} plots the cross-sectional wealth
+        distributions for employed and unemployed households, where, wealth is defined 
+        as current earnings plus net asset
+        holdings, $w = s+a.$
+        
+        The stationary distribution assigns approximately $94.34\%$ of
+        households to the employed state and $5.66\%$ to the unemployed state.
+        Mean wealth in the stationary distribution is approximately $0.9729$.
+
+        Figure \ref{fig:lorenz_curve} plots the Lorenz curve implied by the
+        stationary wealth distribution. Because some households have negative
+        net wealth, the Lorenz curve initially falls below zero before rising
+        toward one. The resulting Gini coefficient is
+        \[
+            G = 0.3854.
+        \]
+        This is substantially below the wealth Gini of $0.80$ observed in the
+        data. Thus, despite generating endogenous wealth inequality through
+        uninsurable idiosyncratic earnings risk, the benchmark incomplete-markets
+        model generates only about half of the wealth inequality observed in the
+        data. Our estimate is also nearly identical to the benchmark model Gini
+        of $0.38$ reported in the lecture notes.
+
+    \section*{Part III}
+
+    Figure \ref{fig:welfare_gains} plots the consumption-equivalent welfare
+    gain $\lambda(a,s)$ from moving from the incomplete-markets equilibrium
+    to the complete-markets allocation. The welfare gain is positive for
+    households with sufficiently low asset holdings and becomes negative
+    for households with sufficiently high asset holdings. Thus, poorer
+    households tend to prefer the complete-markets allocation, while
+    wealthier households tend to prefer the incomplete-markets equilibrium.
+
+    Under complete markets, consumption is constant across households and
+    states and is equal to average earnings,
+    \[
+        c^{FB}
+        =
+        \pi_e e + \pi_u u
+        =
+        0.971698.
+    \]
+    The corresponding lifetime utility is
+    \[
+        W^{FB}
+        =
+        -4.252524.
+    \]
+
+    Under incomplete markets, average lifetime utility is
+    \[
+        W^{INC}
+        =
+        \sum_{a,s} \mu(a,s)v(a,s)
+        =
+        -4.454135.
+    \]
+    Thus, average welfare is higher under complete markets than under
+    incomplete markets.
+
+    For each state $(a,s)$, the consumption-equivalent welfare gain is
+    computed as
+    \[
+        \lambda(a,s)
+        =
+        \left[
+            \frac{
+                W^{FB}
+                +
+                \frac{1}{(1-\alpha)(1-\beta)}
+            }{
+                v(a,s)
+                +
+                \frac{1}{(1-\alpha)(1-\beta)}
+            }
+        \right]^{\frac{1}{1-\alpha}}
+        -1.
+    \]
+    Averaging these gains over the stationary distribution gives
+    \[
+        WG
+        =
+        \sum_{a,s}
+        \lambda(a,s)\mu(a,s)
+        =
+        0.001358.
+    \]
+    Therefore, the average household would be willing to give up
+    approximately
+    \[
+        100\times WG
+        =
+        0.1358\%
+    \]
+    of consumption in every future period in order to obtain the
+    complete-markets allocation.
+
+    Finally, the fraction of the stationary population that weakly prefers
+    the complete-markets allocation is
+    \[
+        \sum_{a,s}
+        \mathbf{1}\{\lambda(a,s)\geq 0\}\mu(a,s)
+        =
+        0.540062.
+    \]
+    Thus, approximately $54.01\%$ of households would favor moving from
+    the incomplete-markets equilibrium to complete markets.
+
+        \begin{figure}
+            \caption{Incomplete-Markets Equilibrium}
+            \vspace{2.5pt}
+            \centering
+
+            \begin{subfigure}{0.49\linewidth}
+                \centering
+                \includegraphics[width=\linewidth]
+                    {../output/policy_functions.pdf}
+                \subcaption{Policy Functions}
+                \label{fig:policy_functions}
+            \end{subfigure}%
+            \hfill
+            \begin{subfigure}{0.49\linewidth}
+                \centering
+                \includegraphics[width=\linewidth]
+                    {../output/wealth_distributions.pdf}
+                \subcaption{Cross-Sectional Wealth Distributions}
+                \label{fig:wealth_distributions}
+            \end{subfigure}
+
+            \vspace{0.5cm}
+
+            \begin{subfigure}{0.49\linewidth}
+                \centering
+                \includegraphics[width=\linewidth]
+                    {../output/lorenz_curve.pdf}
+                \subcaption{Lorenz Curve}
+                \label{fig:lorenz_curve}
+            \end{subfigure}%
+            \hfill
+            \begin{subfigure}{0.49\linewidth}
+                \centering
+                \includegraphics[width=\linewidth]
+                    {../output/welfare_gains.pdf}
+                \subcaption{Welfare Gains}
+                \label{fig:welfare_gains}
+            \end{subfigure}
+
+        \end{figure}
+
 
 \end{document}

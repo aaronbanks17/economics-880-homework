@@ -1,20 +1,3 @@
-
-# -- hugget algorithm -- #
-    
-    # take θ as given 
-
-    # Outer loop: Bisection over q in [0,1]
-        
-        # Inner loop 1: Solve stochastic VFI
-            # return V and g
-        
-        # Inner loop 2: given g, solve for invarient wealth dist μ
-            # return μ
-
-    # check if ∫g(s,a;q)μ dads = 0
-
-    # -- end of algorithm -- #      
-
 # define model primitives 
 @kwdef struct Primitives
     

@@ -1,0 +1,140 @@
+\documentclass{article}
+\input{../../tex-items/preamble.tex}
+
+\begin{document}
+
+    \begin{center}
+        \scalebox{1.3}{\textbf{Economics 880 -- PSet 3}}\\
+        Aaron Banks \& Arthur Rodrigues  
+    \end{center}
+
+\section{Model Comparison}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Stationary Equilibrium: Model Comparison}
+    \label{tab:equilibrium_comparison}
+    \begin{tabular}{lccc}
+        \hline\hline
+        Variable & Standard & TV1 ($\alpha=1$) & TV1 ($\alpha=2$) \\
+        \hline
+        Price Level                  & 0.7390   & 0.6908   & 0.7195   \\
+        Mass of Incumbents           & 8.3207   & 9.5489   & 8.3505   \\
+        Mass of Entrants             & 2.6386   & 4.2232   & 3.5112   \\
+        Mass of Exits                & 2.6386   & 4.2232   & 3.5112   \\
+        \hline
+        Aggregate Labor              & 179.8332 & 188.8909 & 182.6240 \\
+        \quad Labor of Incumbents    & 142.6260 & 139.5075 & 136.6501 \\
+        \quad Labor of Entrants      & 37.2072  & 49.3834  & 45.9739  \\
+        Fraction of Labor in Entrants & 0.2069  & 0.2614   & 0.2517   \\
+        \hline\hline
+    \end{tabular}
+\end{table}
+
+The TV1 specifications generate lower equilibrium prices, greater firm turnover,
+and higher aggregate employment relative to the standard model. These
+differences can be understood through three mechanisms.
+
+First, introducing action-specific shocks increases the ex-ante value of
+operating a firm, since firms choose whether to exit or continue after
+observing these shocks. This makes entry more attractive at a given output
+price. Consequently, the equilibrium price must fall to restore the
+free-entry condition. This effect is stronger when $\alpha$ is smaller,
+corresponding to greater variance in the action-specific shocks.
+
+Second, the TV1 shocks weaken the relationship between productivity and
+exit. In the standard model, all firms in the lowest productivity state
+exit, while firms in higher productivity states survive. Under TV1,
+some low-productivity firms survive while some higher-productivity firms
+exit. In our calibration, this increases firm turnover and reduces average
+firm lifetimes. Since entry must equal exit in a stationary equilibrium,
+the higher rate of exit is accompanied by greater entry. As a result,
+the fraction of aggregate employment accounted for by entrants increases.
+
+Finally, aggregate employment increases despite the lower equilibrium
+price, which reduces labor demand at the individual-firm level. This
+reflects adjustments along both the extensive margin of firm entry and
+the household labor supply margin. In particular, aggregate operating
+profits decline in the TV1 specifications. Since household labor supply
+satisfies
+\[
+    N^s = \frac{1}{A} - \Pi,
+\]
+lower profit income induces households to supply more labor, supporting
+higher equilibrium employment.
+
+As $\alpha$ increases, the variance of the action-specific shocks
+decreases, and the TV1 model approaches the deterministic specification.
+Accordingly, the equilibrium price, aggregate employment, and firm
+turnover generally move toward their standard-model values. However,
+individual equilibrium moments need not change monotonically because
+prices, entry, and the stationary distribution adjust jointly.
+
+\section{Decision Rules of Exit}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{../output/task3_exit_policies.pdf}
+    \caption{Equilibrium Exit Policies Across Model Specifications}
+    \label{fig:exit_policies}
+\end{figure}
+
+In the standard model, exit decisions are deterministic: all firms in
+the lowest productivity state exit, while firms in higher productivity
+states remain. This follows because firms with identical productivity
+have identical continuation values and therefore make the same exit
+decision.
+
+Introducing TV1 shocks makes exit decisions probabilistic, allowing
+firms with identical productivity to make different choices. As a result,
+some low-productivity firms survive while some higher-productivity firms
+exit. The exit probabilities remain decreasing in productivity, since
+more productive firms have higher expected continuation values.
+However, the relationship becomes smoother rather than following a
+strict cutoff rule.
+
+The parameter $\alpha$ governs the variance of the action-specific
+shocks. As $\alpha$ increases, the variance decreases, and firms are
+more likely to choose the action with the highest fundamental value.
+Consequently, the TV1 exit probabilities approach the deterministic
+decision rule as $\alpha$ increases.
+
+\section{Fixed Operating Cost Comparative Statics}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{../output/task4_fixed_cost_comparison.pdf}
+    \caption{Effect of Increasing Fixed Operating Costs from $c_f=10$ to $c_f=15$}
+    \label{fig:fixed_cost_comparison}
+\end{figure}
+
+\noindent
+Increasing the fixed operating cost from $c_f=10$ to $c_f=15$
+generally increases the probability of exit, particularly among
+low-productivity firms. Higher fixed costs reduce operating profits
+and expected continuation values, making continued operation less
+attractive. Although the equilibrium output price adjusts through
+the free-entry condition, the overall effect in our simulations is
+an increase in exit.
+
+In the standard model, the higher fixed cost changes the exit
+threshold: firms in the two lowest productivity states now exit,
+whereas previously only firms in the lowest state exited. Thus, the
+increase in fixed costs induces exit among firms that previously
+found continued operation profitable.
+
+In the TV1 specifications, the adjustment occurs through changes
+in exit probabilities rather than a discrete change in the exit
+threshold. For $\alpha=1$, the exit probabilities in the two lowest
+productivity states increase from approximately $(0.52, 0.30)$
+to $(0.84, 0.55)$. For $\alpha=2$, they increase from approximately
+$(0.67, 0.20)$ to $(0.97, 0.67)$. Exit probabilities for firms in
+the three highest productivity states remain close to zero.
+
+These results illustrate that higher operating costs disproportionately
+affect firms with low productivity and low continuation values.
+Moreover, the TV1 model generates a smoother response to changes
+in operating costs, whereas the standard model exhibits discrete
+changes in the set of firms choosing to exit.
+
+\end{document}

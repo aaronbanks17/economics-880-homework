@@ -1,0 +1,208 @@
+\documentclass{article}
+\input{../../tex-items/preamble.tex}
+
+\begin{document}
+    \begin{center}
+        \scalebox{1.3}{Economics 880 - PS4}\\
+        Aaron Banks \& Arthur Rodrigues
+    \end{center}
+
+\section*{Question 1}
+
+The moment vector $m_3(x_t)$ contains the quantities used to
+construct the mean, variance, and first-order autocovariance of
+the time series $x \equiv \{x_t\}$. We have
+\[
+    m_3(x_t)
+    =
+    \begin{bmatrix}
+        x_t\\
+        (x_t-\bar{x})^2\\
+        (x_t-\bar{x})(x_{t-1}-\bar{x})
+    \end{bmatrix}.
+\]
+
+We will consider the moments of the stationary distribution of the
+series since we are asked to compute the asymptotic moments.
+We have
+\begin{align*}
+    \mathbb{E}[x_t]
+    &= \rho_0 \mathbb{E}[x_{t-1}]
+    + \mathbb{E}[\varepsilon_t]\\
+    &= \rho_0 \mathbb{E}[x_{t-1}].
+\end{align*}
+Under stationarity, $\mathbb{E}[x_t]=\mu$ for all $t$, hence
+\[
+    \mu = \rho_0\mu
+    \qquad \Rightarrow \qquad
+    \mu(1-\rho_0)=0
+    \qquad \Rightarrow \qquad
+    \mu=0,
+\]
+since $\rho_0=0.5$.
+
+For the asymptotic variance, we have
+\begin{align*}
+    \mathbb{E}[x_t^2]
+    &= \rho_0^2\mathbb{E}[x_{t-1}^2]
+    + 2\rho_0\mathbb{E}[x_{t-1}\varepsilon_t]
+    + \mathbb{E}[\varepsilon_t^2]\\
+    &= \rho_0^2\mathbb{E}[x_{t-1}^2]+\sigma_0^2,
+\end{align*}
+since $\mathbb{E}[x_{t-1}\varepsilon_t]=0$.
+Under stationarity,
+$\mathbb{E}[x_{t-1}^2]=\mathbb{E}[x_t^2]=v$, so
+\[
+    v=\rho_0^2v+\sigma_0^2
+    \qquad \Rightarrow \qquad
+    v=\frac{\sigma_0^2}{1-\rho_0^2}.
+\]
+
+For the first-order autocovariance, we have
+\begin{align*}
+    \mathbb{E}[x_tx_{t-1}]
+    &= \mathbb{E}[
+        (\rho_0x_{t-1}+\varepsilon_t)x_{t-1}
+    ]\\
+    &= \rho_0\mathbb{E}[x_{t-1}^2]
+    + \mathbb{E}[\varepsilon_tx_{t-1}]\\
+    &= \rho_0\mathbb{E}[x_{t-1}^2]\\
+    &= \frac{\rho_0\sigma_0^2}{1-\rho_0^2},
+\end{align*}
+where the third equality follows from the independence of
+$\varepsilon_t$ and $x_{t-1}$, and the fourth from stationarity.
+
+Thus, for the parameter vector
+$b=(\rho,\sigma^2)^{\mathsf T}$, the population moment vector is
+\[
+    \mu_3(b)
+    =
+    \begin{bmatrix}
+        0\\[6pt]
+        \displaystyle\frac{\sigma^2}{1-\rho^2}\\[10pt]
+        \displaystyle\frac{\rho\sigma^2}{1-\rho^2}
+    \end{bmatrix}.
+\]
+
+Evaluating at the true parameters,
+$b_0=(\rho_0,\sigma_0^2)^{\mathsf T}$, gives
+\[
+    \mu_3(b_0)
+    =
+    \begin{bmatrix}
+        0\\[6pt]
+        \displaystyle\frac{\sigma_0^2}{1-\rho_0^2}\\[10pt]
+        \displaystyle\frac{\rho_0\sigma_0^2}{1-\rho_0^2}
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        0\\
+        4/3\\
+        2/3
+    \end{bmatrix}.
+\]
+
+We next compute the Jacobian of the population moment conditions.
+Recall that
+\[
+    g(b)=\mu_3(b_0)-\mu_3(b),
+\]
+so
+\[
+    \nabla_b g(b)
+    =
+    -\frac{\partial\mu_3(b)}{\partial b^{\mathsf T}}.
+\]
+
+Differentiating with respect to $\rho$ and $\sigma^2$, we obtain
+\[
+    \nabla_b g(b)
+    =
+    -
+    \begin{bmatrix}
+        0 & 0\\[6pt]
+        \displaystyle\frac{2\rho\sigma^2}{(1-\rho^2)^2}
+        &
+        \displaystyle\frac{1}{1-\rho^2}\\[10pt]
+        \displaystyle\frac{\sigma^2(1+\rho^2)}{(1-\rho^2)^2}
+        &
+        \displaystyle\frac{\rho}{1-\rho^2}
+    \end{bmatrix}.
+\]
+
+Evaluating at $b_0$, we have
+\[
+    G \equiv \nabla_b g(b_0)
+    =
+    -
+    \begin{bmatrix}
+        0 & 0\\
+        16/9 & 4/3\\
+        20/9 & 2/3
+    \end{bmatrix}.
+\]
+
+The Jacobian has full column rank since
+\[
+    \det
+    \begin{bmatrix}
+        16/9 & 4/3\\
+        20/9 & 2/3
+    \end{bmatrix}
+    =
+    -\frac{16}{9}\neq 0.
+\]
+Thus,
+\[
+    \operatorname{rank}(G)=2,
+\]
+and the two structural parameters are locally identified.
+
+We next compute the AGS sensitivity matrix, defined as
+\[
+    \Lambda
+    =
+    -(G^{\mathsf T}WG)^{-1}G^{\mathsf T}W.
+\]
+
+Using $W=I_3$, we have
+\[
+    \Lambda
+    =
+    -(G^{\mathsf T}G)^{-1}G^{\mathsf T}.
+\]
+
+Substituting the Jacobian and simplifying gives
+\[
+    \Lambda
+    =
+    \begin{bmatrix}
+        0 & -3/8 & 3/4\\
+        0 & 5/4 & -1
+    \end{bmatrix}.
+\]
+
+The first column of $\Lambda$ is zero, indicating that the
+sample mean does not affect either parameter estimate when
+$W=I_3$. This follows from the fact that the population mean
+is zero regardless of the structural parameters.
+
+The variance and first-order autocovariance are informative
+for both parameters. In particular, the first row of $\Lambda$
+indicates that an increase in the empirical variance decreases
+the estimate of $\rho$, holding the autocovariance fixed,
+while an increase in the empirical autocovariance increases
+the estimate of $\rho$, holding the variance fixed.
+
+Similarly, the second row indicates that an increase in
+the empirical variance increases the estimate of $\sigma^2$,
+holding the autocovariance fixed, while an increase in the
+empirical autocovariance decreases the estimate of $\sigma^2$,
+holding the variance fixed.
+
+Thus, the mean provides no identifying information, while
+the variance and autocovariance jointly identify the two
+structural parameters.
+
+
+\end{document}

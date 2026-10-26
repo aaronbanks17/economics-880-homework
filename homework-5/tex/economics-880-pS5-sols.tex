@@ -1,0 +1,324 @@
+\documentclass{article}
+\input{../../tex-items/preamble.tex}
+
+\begin{document}
+    \begin{center}
+        \scalebox{1.3}{Economics 880 - PS5}\\
+        Aaron Banks \& Arthur Rodrigues
+    \end{center}
+
+
+\section*{Question 1}
+
+We solve the household's dynamic programming problem by backward
+induction, taking prices $(r,w,b)=(0.05,1.05,0.20)$ as given.
+The terminal condition is $V_{N+1}(a,z)=0$, and agents are
+restricted to nonnegative asset holdings.
+
+\subsection*{Retirees}
+
+For a retired agent of age $j \geq J^R$, the Bellman equation is
+\begin{equation*}
+    V_j(a)
+    = \max_{a' \geq 0}
+    \left\{
+        u^R\left((1+r)a+b-a'\right)
+        + \beta V_{j+1}(a')
+    \right\},
+\end{equation*}
+where
+\begin{equation*}
+    u^R(c)=\frac{c^{\gamma(1-\sigma)}}{1-\sigma}.
+\end{equation*}
+
+We solve this problem numerically over the asset grid and obtain
+the value function for an agent at model-age 50.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]
+        {../output/p1_retiree_value.pdf}
+    \caption{Value function of a retiree at model-age 50.}
+    \label{fig:retiree_value}
+\end{figure}
+
+The value function is increasing in assets, since greater wealth
+expands the household's feasible consumption set. The underlying
+continuous-choice problem also implies a concave value function,
+reflecting diminishing marginal utility of consumption. Our numerical
+solution is increasing over the entire asset grid and approximately concave.
+
+\subsection*{Workers}
+
+For a working-age agent, the Bellman equation is
+\begin{align*}
+    V_j(a,z)
+    = \max_{a' \geq 0,\;0\leq l\leq 1}
+    \Big\{&
+        u^W(c,l)
+        +\beta \mathbb{E}
+        \left[V_{j+1}(a',z')\mid z\right]
+    \Big\},
+\end{align*}
+subject to
+\begin{equation*}
+    c=(1+r)a+(1-\theta)we(z,j)l-a'.
+\end{equation*}
+
+To reduce the dimensionality of the optimization, we derive
+optimal labor supply conditional on the savings choice.
+The intratemporal first-order condition is
+\begin{equation*}
+    \frac{1-\gamma}{\gamma}
+    \frac{c}{1-l}
+    =(1-\theta)we(z,j).
+\end{equation*}
+
+Substituting the budget constraint and rearranging yields
+\begin{equation*}
+    l_j(a,z,a')
+    =\gamma-
+    \frac{(1-\gamma)\left[(1+r)a-a'\right]}
+    {(1-\theta)we(z,j)},
+\end{equation*}
+with the solution restricted to $[0,1]$.
+
+We then solve for the optimal savings policy $a'_j(a,z)$.
+Figure \ref{fig:worker_savings} plots this policy at model-age 20
+for both productivity states, $z^H=3.0$ and $z^L=0.5$.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]
+        {../output/p1_worker_savings.pdf}
+    \caption{Optimal savings policies at model-age 20 by
+    productivity state.}
+    \label{fig:worker_savings}
+\end{figure}
+
+The numerical results indicate that optimal savings are
+weakly increasing in current assets for both productivity
+states. Moreover, at every point on the asset grid,
+\begin{equation*}
+    a'_{20}(a,z^H)\geq a'_{20}(a,z^L).
+\end{equation*}
+Higher-productivity workers earn greater labor income,
+holding their assets fixed, and consequently choose to
+save more. Both monotonicity properties are satisfied
+in our numerical solution.
+
+
+\section*{Question 2}
+
+We construct the stationary distribution of agents over age,
+productivity, and asset holdings using the optimal decision
+rules obtained in Question 1.
+
+First, the stationary mass of agents at age $j$ satisfies
+\begin{equation*}
+    \mu_{j+1}=\frac{\mu_j}{1+n},
+    \qquad j=1,\ldots,N-1.
+\end{equation*}
+
+Normalizing total population mass to one gives
+\begin{equation*}
+    \mu_j =
+    \frac{(1+n)^{-(j-1)}}
+    {\displaystyle\sum_{k=1}^{N}(1+n)^{-(k-1)}}.
+\end{equation*}
+
+Newborn agents have zero initial assets, and their
+productivity is drawn from the stationary distribution
+of the productivity process. Therefore,
+\begin{align*}
+    F_1(0,z^H) &= 0.2037\mu_1,\\
+    F_1(0,z^L) &= 0.7963\mu_1.
+\end{align*}
+
+Given the optimal savings policy $a'_j(a,z)$ and
+productivity transition matrix $\Pi$, we recursively
+compute the distribution at each subsequent age:
+\begin{equation*}
+    F_{j+1}(a',z')
+    =
+    \frac{1}{1+n}
+    \sum_{a,z}
+    F_j(a,z)\Pi(z,z')
+    \mathbf{1}\{a'_j(a,z)=a'\}.
+\end{equation*}
+
+Here, the indicator function assigns agents to the
+asset holdings implied by their optimal savings policy,
+while the transition matrix determines the evolution
+of productivity.
+
+Our computed distribution satisfies the normalization
+conditions
+\begin{equation*}
+    \sum_{j=1}^{N}\sum_{a,z}F_j(a,z)=1,
+\end{equation*}
+and
+\begin{equation*}
+    \sum_{a,z}F_j(a,z)=\mu_j
+    \qquad \text{for all }j.
+\end{equation*}
+
+Numerically, total population mass is $1.00000000$,
+and the maximum discrepancy between the calculated
+and theoretical cohort masses is approximately
+$8.67\times 10^{-18}$.
+
+The newborn distribution is
+\begin{align*}
+    F_1(0,z^H)&=0.00430991,\\
+    F_1(0,z^L)&=0.01684823.
+\end{align*}
+
+Using the stationary distribution, aggregate capital
+and effective labor supply are calculated as
+\begin{align*}
+    K &= \sum_{j=1}^{N}\sum_{a,z}F_j(a,z)a,\\
+    L &= \sum_{j=1}^{J^R-1}
+         \sum_{a,z}F_j(a,z)e(z,j)l_j(a,z).
+\end{align*}
+
+At the fixed prices from Question 1, we obtain
+\begin{equation*}
+    K=3.622513,\qquad L=0.324883.
+\end{equation*}
+
+Figure \ref{fig:assets_by_age} plots average asset
+holdings by age, conditional on survival to that age.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]
+        {../output/p2_assets_by_age.pdf}
+    \caption{Mean asset holdings by age in the
+    stationary distribution.}
+    \label{fig:assets_by_age}
+\end{figure}
+
+Mean asset holdings exhibit a hump-shaped life-cycle
+profile. Agents accumulate assets during their
+working years to finance retirement consumption,
+and subsequently decumulate their wealth after
+retirement. This pattern reflects the life-cycle
+savings motive in the model.
+
+
+
+\section*{Question 3}
+
+We solve for stationary general equilibrium under six specifications,
+using the guess-and-verify algorithm. Table \ref{tab:ss_results}
+summarizes the results.
+
+\begin{table}[htbp]
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{4pt}
+    \caption{Steady-state effects of eliminating Social Security}
+    \label{tab:ss_results}
+    \begin{tabular}{lrrrrrr}
+    \hline\hline
+     & \multicolumn{2}{c}{Benchmark}
+     & \multicolumn{2}{c}{No risk}
+     & \multicolumn{2}{c}{Exogenous labor} \\
+     & With SS & Without SS
+     & With SS & Without SS
+     & With SS & Without SS \\
+    \hline
+    Capital $K$
+     & 3.3584 & 4.5984 & 1.0475 & 1.2975 & 7.3553 & 10.4876 \\
+    Labor $L$
+     & 0.3432 & 0.3651 & 0.1601 & 0.1683 & 0.7542 & 0.7543 \\
+    Wage $w$
+     & 1.4548 & 1.5931 & 1.2584 & 1.3350 & 1.4530 & 1.6509 \\
+    Interest $r$
+     & 0.0236 & 0.0112 & 0.0482 & 0.0374 & 0.0238 & 0.0068 \\
+    Pension benefit $b$
+     & 0.2251 & 0.0000 & 0.0909 & 0.0000 & 0.4941 & 0.0000 \\
+    Total welfare $W$
+     & -35.7679 & -37.4050 & -45.0110 & -45.1519 & -23.0182 & -25.7607 \\
+    $\mathrm{cv}(\mathrm{wealth})$
+     & 1.6706 & 1.4946 & 0.7953 & 0.9113 & 1.6565 & 1.4177 \\
+    \hline\hline
+    \end{tabular}
+\end{table}
+
+\subsection*{Benchmark Economy}
+
+The benchmark economy is dynamically efficient, since the equilibrium
+interest rate exceeds population growth, $r=0.0236>n=0.011$.
+Thus, the implicit return on Social Security is below the return
+on private capital.
+
+Eliminating Social Security increases aggregate capital by $36.93\%$
+and labor supply by $6.39\%$, raising output by approximately
+$16.51\%$. Without pension benefits, households save more to
+finance retirement, while eliminating the payroll tax increases
+the incentive to work. The resulting increase in the capital-labor
+ratio raises wages and lowers the interest rate.
+
+Despite these efficiency gains, aggregate steady-state welfare
+falls by $1.6370$. This suggests that the insurance and
+redistributive benefits of Social Security outweigh its
+distortionary costs under our welfare measure. However, newborn
+welfare increases by $1.6394$, with gains for both productivity
+types. This highlights the distributional consequences of the
+reform: future generations can benefit from higher capital
+accumulation, while older generations depend more heavily on
+pension benefits. The coefficient of variation of wealth also
+falls from $1.6706$ to $1.4946$, indicating lower relative
+wealth inequality.
+
+\subsection*{Economy Without Idiosyncratic Risk}
+
+With Social Security, removing idiosyncratic productivity risk
+reduces aggregate capital from $3.3584$ to $1.0475$. This is
+consistent with a precautionary savings motive: when households
+face uncertain labor income, they accumulate assets as a buffer
+against adverse productivity shocks. However, the experiment
+also lowers average productivity by setting both productivity
+states to $0.5$, so the decline in capital cannot be attributed
+entirely to the removal of risk.
+
+Eliminating Social Security in this economy increases capital
+by $23.87\%$, while aggregate welfare falls by only $0.1410$,
+compared with $1.6370$ in the benchmark. This smaller welfare
+loss is consistent with Social Security providing valuable
+insurance against idiosyncratic income risk, although the
+change in mean productivity prevents us from isolating this
+mechanism.
+
+Importantly, these welfare comparisons concern stationary
+equilibria rather than the transition following a reform.
+In particular, they do not account for the losses of existing
+generations who have paid Social Security taxes but would
+no longer receive their expected benefits. Consequently,
+the steady-state welfare differences should not be interpreted
+as the welfare effects of an immediate reform.
+
+\subsection*{Exogenous Labor Supply}
+
+Setting $\gamma=1$ eliminates the labor-supply distortion
+associated with Social Security. Consistent with this,
+aggregate labor is effectively unchanged following the
+reform, compared with the $6.39\%$ increase in the benchmark.
+
+Social Security nevertheless continues to crowd out private
+capital accumulation. Eliminating the program increases
+capital by $42.58\%$, while aggregate welfare falls by
+$2.7425$.
+
+Thus, even without the labor-supply distortion, Social
+Security reduces capital accumulation but improves aggregate
+stationary welfare. The results suggest that the case for
+Social Security is stronger when labor supply is exogenous,
+as its insurance and redistributive benefits are obtained
+without distorting labor supply. Newborn welfare, however,
+still increases following the reform.
+
+
+\end{document}

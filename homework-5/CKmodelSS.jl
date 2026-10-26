@@ -15,7 +15,7 @@
     z::Vector{Float64} = [3.0, 0.5]                      # Idiosyncratic productivity (high, low)
     Π::Matrix{Float64} = [0.9261 0.0739; 0.0189 0.9811]  # Π[i, i′] = Pr(z′ = z_i′ | z = z_i)
     z_newborn::Vector{Float64} = [0.2037, 0.7963]        # Distribution of z at birth (ergodic for Π)
-    η::Vector{Float64} = parse.(Float64, split(read(joinpath(@__DIR__, "..", "ef.txt"), String)))  # Age efficiency, j < J_R
+    η::Vector{Float64} = parse.(Float64, split(read(joinpath(@__DIR__, "ef.txt"), String)))  # Age efficiency, j < J_R
     a_grid::Vector{Float64} = 100 .* range(0, 1; length=2001) .^ 2  # Assets, denser near a = 0 (no borrowing)
 end
 

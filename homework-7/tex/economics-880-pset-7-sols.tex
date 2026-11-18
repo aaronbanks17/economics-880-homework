@@ -1,0 +1,374 @@
+\documentclass{article}
+\input{../../tex-items/preamble.tex}
+
+\begin{document}
+\begin{center}
+    \textbf{\scalebox{1.3}{Economics 880 PSet 1  (Lentz)}}\\
+    Aaron Banks
+\end{center}
+
+\section*{Question 1}
+
+Following the defintion of $\ln L(Y_i \mid \theta)$ given in setting of the problem set, we have 
+\begin{equation}\label{eq:q1_L}
+    \begin{aligned}
+        \mathcal{L}(Y \mid \hat{\theta}) &= \sum_{i=1}^I \ln L(Y_i \mid \hat{\theta}) \\ 
+        &= \sum_{i=1}^I \sum_{s=1}^{T_i}\left(
+            - \frac{(\ln \Delta x_{is} - \hat{\mu})^2}{2\hat{\sigma}^2} - 
+            \ln(\Delta x_{is}) - \ln \hat{\sigma} - \frac{1}{2}\ln(2\pi)
+        \right)\\
+        &\quad + \quad
+        \sum_{i=1}^I \sum_{s=1}^{T_i}\sum_{n=1}^N 
+        \chi_{isn} [
+            d_{ist+1}\ln \hat{h}_n + (1-d_{ist+1})\ln (1 - \hat{h}_n)
+        ].
+    \end{aligned}
+\end{equation}
+The value $\hat{\theta}$ maximizes $\mathcal{L}(Y \mid \hat{\theta})$, so we can use 
+the first order condition of the latter to derive the components of $\hat{\theta}$. 
+For $\hat{\mu}$, we have 
+\begin{align*}
+    \frac{\partial \mathcal{L}}{\partial \hat{\mu}}
+     = \sum_{i=1}^I \sum_{s=1}^{T_i}\left(
+            - \frac{2 (\ln \Delta x_{is} - \hat{\mu})}{2 \hat{\sigma}^2} \cdot (-1)
+        \right)
+        \quad \overset{FOC}{\Rightarrow} \quad 
+        \hat{\mu} = 
+        \frac{1}{\sum_{i=1}^I T_i} \sum_{i=1}^I \sum_{s=1}^{T_i} \ln \Delta x_{is}.
+\end{align*}
+For $\hat{\sigma}$, we have
+\begin{align*}
+    \frac{\partial \mathcal{L}}{\partial \hat{\sigma}} = 
+    \sum_{i=1}^I\sum_{s}^{T_i} \left(
+        (\ln \Delta x_{is} - \hat{\mu})^2 (2 \hat{\sigma}^2)^{-2}4\sigma - \sigma^{-1}
+    \right)
+    \quad \overset{FOC}{\Rightarrow} \quad 
+    \hat{\sigma}^2 = \frac{1}{ \sum_{i=1}^I T_i} \sum_{i=1}^I\sum_{s=1}^{T_i} \left(
+        \ln \Delta x_{is} - \hat{\mu}
+    \right)^2.
+\end{align*}
+Finally, for $\hat{h}$, we have 
+\begin{align*}
+    \frac{\partial \mathcal{L}}{\partial h_j}
+    &= \sum_{i=1}^I \sum_{s=1}^{T_i} \chi_{isj}
+    \left(
+        \frac{d_{is+1}}{h_j}
+        - \frac{1-d_{is+1}}{1-h_j}
+    \right) 
+    \quad \overset{FOC}{\Rightarrow} \quad
+    \hat{h}_j
+    = \frac{
+        \sum_{i=1}^I \sum_{s=1}^{T_i} \chi_{isj}d_{is+1}
+    }{
+        \sum_{i=1}^I \sum_{s=1}^{T_i} \chi_{isj}
+    }.
+\end{align*}
+Plugging these into $\mathcal{L}$ above yields
+\begin{align*}
+\mathcal{L}(Y \mid \hat{\theta})
+&= -\frac{1}{2}\sum_{i=1}^I T_i
+- \sum_{i=1}^I \sum_{s=1}^{T_i} \ln(\Delta x_{is})
+- \left(\sum_{i=1}^I T_i\right)
+\left(\ln \hat{\sigma} + \frac{1}{2}\ln(2\pi)\right) \\
+&\quad + \sum_{j=1}^N \Bigg[
+\left(
+\sum_{i=1}^I \sum_{s=1}^{T_i}
+\chi_{isj}d_{is+1}
+\right)
+\ln\left(
+\frac{
+\sum_{i=1}^I \sum_{s=1}^{T_i}
+\chi_{isj}d_{is+1}
+}{
+\sum_{i=1}^I \sum_{s=1}^{T_i}
+\chi_{isj}
+}
+\right) \\
+&\qquad\qquad +
+\left(
+\sum_{i=1}^I \sum_{s=1}^{T_i}
+\chi_{isj}(1-d_{is+1})
+\right)
+\ln\left(
+\frac{
+\sum_{i=1}^I \sum_{s=1}^{T_i}
+\chi_{isj}(1-d_{is+1})
+}{
+\sum_{i=1}^I \sum_{s=1}^{T_i}
+\chi_{isj}
+}
+\right)
+\Bigg].
+\end{align*}
+However, we will not used the above to compute the likeliehood. Rather, we find it simpler to
+first compute $\hat{\theta}$ from the first order conditions above as they define simple 
+frequency measures that can be computed directly from the data, and then plugging these into 
+equation \eqref{eq:q1_L} to get the likeliehood estimate. We have 
+\[
+    (\hat{\mu}, \hat{\sigma}, \hat{\mathcal{L}}) = (8.02,0.619,-71146.863).
+\]
+Figure \ref{fig:q1_hist} plots the CDF of mileage associated with replacement.  
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Replacement Hazard}
+    \label{fig:q1_hist}
+    \includegraphics[width=0.75\linewidth]{../output/hazard_cdf.pdf}
+\end{figure}
+
+\section*{Question 2}
+
+Rather than estimating the replacement hazard separately over $N=40$ mileage
+bins, we now parameterize $h(x)$ using an $n$-order Bernstein polynomial.
+In particular, we have
+\begin{align*}
+    h(x \mid f)
+    &= \frac{1}{\bar{x}^n}\sum_{k=1}^n
+    f_k \binom{n}{k} x^k(\bar{x}-x)^{n-k} \\
+    &= \sum_{k=1}^n f_k B_k(x),
+\end{align*}
+where
+\[
+    B_k(x) = \binom{n}{k}
+    \left(\frac{x}{\bar{x}}\right)^k
+    \left(1-\frac{x}{\bar{x}}\right)^{n-k},
+    \qquad f_k \in [0,1].
+\]
+We set $n=5$ and $\bar{x}=\max_{it}x_{it}$, as specified in the
+problem set. The restriction $h(0)=0$ is imposed by omitting the
+$k=0$ term.
+
+As in Question 1, the log-likelihood is separable into the odometer
+and replacement components. Since the odometer component does not
+depend on $f$, we can estimate $(\mu,\sigma)$ analytically as before
+and maximize the replacement component with respect to $f$.
+We have
+\begin{align*}
+    R(Y\mid f)
+    = \sum_{i=1}^I\sum_{s=1}^{T_i}
+    \left[
+        d_{i,s+1}\ln h(x_{is}\mid f)
+        +(1-d_{i,s+1})\ln(1-h(x_{is}\mid f))
+    \right].
+\end{align*}
+The estimator is therefore given by
+\[
+    \hat{f} = \operatorname{argmax}_{f\in[0,1]^5} R(Y\mid f).
+\]
+
+\begin{enumerate}
+
+\item[(a)]
+We first consider estimating $f$ using Newton-Raphson.
+For this, we need the gradient and Hessian of the
+replacement log-likelihood. Since
+\[
+    \frac{\partial h(x_{is}\mid f)}{\partial f_j}
+    = B_j(x_{is}),
+\]
+the first derivative is given by
+\begin{align*}
+    \frac{\partial R}{\partial f_j}
+    &= \sum_{i=1}^I\sum_{s=1}^{T_i}
+    B_j(x_{is})
+    \left[
+        \frac{d_{i,s+1}}{h(x_{is}\mid f)}
+        -\frac{1-d_{i,s+1}}{1-h(x_{is}\mid f)}
+    \right].
+\end{align*}
+Differentiating again, we have
+\begin{align*}
+    \frac{\partial^2 R}{\partial f_j\partial f_k}
+    &=-\sum_{i=1}^I\sum_{s=1}^{T_i}
+    B_j(x_{is})B_k(x_{is})
+    \left[
+        \frac{d_{i,s+1}}{h(x_{is}\mid f)^2}
+        +\frac{1-d_{i,s+1}}{(1-h(x_{is}\mid f))^2}
+    \right].
+\end{align*}
+We use these expressions to implement Newton-Raphson by
+minimizing the negative replacement log-likelihood
+$Q(f)=-R(Y\mid f)$. The standard Newton-Raphson update
+is given by
+\[
+    f^{(r+1)}
+    = f^{(r)}
+    - \left[\nabla^2 Q(f^{(r)})\right]^{-1}
+    \nabla Q(f^{(r)}).
+\]
+
+We first implement the standard Newton-Raphson algorithm
+without modifying the step size or imposing the parameter
+constraints during the update. Starting from
+$f^{(0)}=(0.5,0.5,0.5,0.5,0.5)$, the algorithm fails to
+converge because an iteration produces coefficients outside
+the feasible parameter space $[0,1]^5$. In particular,
+the proposed coefficients at termination are
+\[
+    f=(-2.6028,\;3.9514,\;-3.6908,\;2.2029,\;-0.6544).
+\]
+These coefficients are not admissible, and consequently
+we do not obtain a valid likelihood estimate.
+
+To examine sensitivity to initial guesses, we repeat the
+estimation using
+\[
+    f^{(0)}\in
+    \left\{
+    (a,a,a,a,a): a=0.1,0.3,0.5,0.7,0.9
+    \right\}.
+\]
+We find that standard Newton-Raphson fails to converge
+for all five initial guesses, with each run eventually
+producing a step outside the feasible parameter space.
+Although the proposed coefficients at termination differ
+across starting values, the reason for failure is the same.
+Thus, the standard algorithm fails for all of the initial
+guesses considered, rather than converging only from
+particular starting values.
+
+We therefore make several modifications to the algorithm
+to improve its numerical stability. First, we impose the
+parameter restrictions by projecting proposed updates
+onto $[0,1]^5$. Second, we use a backtracking line search,
+which reduces the step size whenever the proposed update
+fails to sufficiently decrease the objective. Third, we
+identify coefficients constrained at their boundaries and
+exclude them from the Newton system when the gradient points
+outside the feasible parameter space. Finally, we regularize
+the Hessian by adding a small positive constant to its
+diagonal and allow a gradient descent step when the Newton
+direction fails to produce an acceptable update. Thus, our
+modified algorithm is a damped, constrained
+version of Newton-Raphson.
+
+Starting again from $f^{(0)}=(0.5,0.5,0.5,0.5,0.5)$,
+the modified algorithm converges to
+\[
+    \hat{f}_{NR}
+    = (0,\;0,\;0.004654,\;0.071000,\;0.037850).
+\]
+Combining this with the estimates of the odometer parameters,
+we obtain
+\[
+    (\hat{\mu},\hat{\sigma},
+    \mathcal{L}(Y\mid\hat{\theta}_{NR}))
+    = (8.0165,\;0.6186,\;-71160.713).
+\]
+The gradient error is $4.289\times10^{-10}$.
+
+Repeating the estimation over the five initial guesses
+considered above, we find that the modified algorithm
+converges to the same coefficients and maximized
+log-likelihood in every case. Thus, the modified
+Newton-Raphson algorithm is not particularly sensitive
+to the initial guesses considered.
+
+The difference between the two implementations is
+particularly important because the estimated first two
+Bernstein coefficients are zero, so the maximizer lies
+on the boundary of the parameter space. Standard
+Newton-Raphson does not account for these restrictions
+and can produce infeasible updates, whereas the modified
+algorithm accommodates the boundary solution.
+
+
+    \item[(b)]
+    Next, we estimate $f$ using Nelder-Mead. Unlike Newton-Raphson,
+    Nelder-Mead does not require the gradient or Hessian of the
+    objective. Rather, it maintains a simplex of $n+1$ points and
+    updates this simplex using evaluations of the negative
+    log-likelihood.
+
+    Using the same initial guess as above, we obtain
+    \[
+        \hat{f}_{NM}
+        = (0,\;0,\;0.004654,\;0.071000,\;0.037850),
+    \]
+    with
+    \[
+        \mathcal{L}(Y\mid\hat{\theta}_{NM})
+        = -71160.713.
+    \]
+    Thus, for this initial guess, Nelder-Mead produces the same
+    estimates as Newton-Raphson.
+
+    However, Nelder-Mead is considerably more sensitive to initial
+    guesses. Repeating the estimation over the same five starting
+    values gives the following results:
+    \begin{center}
+    \begin{tabular}{c c c}
+        \hline
+        Initial guess & Log-likelihood & Converged \\
+        \hline
+        0.1 & -71160.774 & No \\
+        0.3 & -71160.774 & No \\
+        0.5 & -71160.713 & Yes \\
+        0.7 & -71335.259 & No \\
+        0.9 & -71160.774 & No \\
+        \hline
+    \end{tabular}
+    \end{center}
+    In particular, the initial guess of $0.7$ produces
+    \[
+        \hat{f}_{NM}=(0,\;0,\;0,\;0,\;1),
+    \]
+    which yields a substantially lower log-likelihood. Only one
+    of the five initial guesses satisfies the convergence criteria.
+    This suggests that Nelder-Mead can stagnate at inferior solutions,
+    particularly when the simplex approaches the boundaries of the
+    parameter space.
+
+    \item[(c)]
+    We now combine the two methods by first performing 30 iterations
+    of Nelder-Mead and then using the resulting coefficients as the
+    initial guess for Newton-Raphson.
+
+    Starting from $f^{(0)}=(0.5,0.5,0.5,0.5,0.5)$, we obtain
+    \[
+        \hat{f}_{Hybrid}
+        = (0,\;0,\;0.004654,\;0.071000,\;0.037850),
+    \]
+    with
+    \[
+        \mathcal{L}(Y\mid\hat{\theta}_{Hybrid})
+        = -71160.713.
+    \]
+    The projected gradient error is $7.105\times10^{-13}$.
+
+    Repeating the estimation over the five initial guesses considered
+    above, we find that the hybrid method converges to the same
+    coefficients and maximized log-likelihood in every case.
+    Thus, the hybrid method is considerably less sensitive to the
+    initial guesses than Nelder-Mead alone.
+
+    \item[(d)]
+    The results suggest that Newton-Raphson and the hybrid method
+    perform better than Nelder-Mead for this estimation problem.
+    Both methods converge to the same estimates across all five
+    initial guesses, whereas Nelder-Mead converges for only one.
+
+    Moreover, since the Bernstein hazard is linear in $f$, and the
+    Bernoulli log-likelihood is concave in the replacement probability,
+    the replacement log-likelihood is concave in $f$. Consequently,
+    the differences in the estimates obtained with Nelder-Mead
+    reflect numerical convergence problems rather than multiple
+    local maxima.
+
+    The estimated first two coefficients are zero, indicating that
+    the solution lies on the boundary of the parameter space.
+    This helps explain why the constrained Newton-Raphson method
+    performs better than the simplex-based Nelder-Mead method.
+
+    Finally, relative to Question 1, the maximized log-likelihood
+    decreases from $-71146.863$ to $-71160.713$, a difference of
+    approximately $13.850$. The Bernstein specification uses only
+    five parameters to characterize the replacement hazard, rather
+    than estimating 40 separate mileage-bin hazards. Thus, it
+    provides a substantially more parsimonious representation
+    of the replacement policy.
+\end{enumerate}
+
+
+
+\end{document}
